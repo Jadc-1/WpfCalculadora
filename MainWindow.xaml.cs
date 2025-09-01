@@ -25,6 +25,14 @@ namespace WpfCalculadora
             InitializeComponent();
         }
 
-       
+       public void LimparVisor()
+       {
+            if (N2 == 0)
+            {
+                MessageBox.Show("Divisão por zero não é permitida.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 0;
+            }
+            txtVisor.Text = "";
+       }
     }
 }
