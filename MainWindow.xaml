@@ -5,30 +5,49 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfCalculadora"
         mc:Ignorable="d"
-        Title="Calculadora POO2" Height="527" Width="416"
-        Background="Black">
+        Title="Calculadora POO2" Height="538" Width="416"
+        Background="Black"
+        ResizeMode="CanMinimize"
+        >
     <Grid>
-        <Border Background="#FF1D1D1D" Margin="2,2,2,420" CornerRadius="10">
-            <Grid Margin="2,2,2,420" 
-                  x:Name="visorGrid" 
-                  Background="Transparent"
-                  >
-                
-                <TextBox x:Name="txtVisor"
-                         Background="Transparent"
-                         BorderBrush="Transparent"
-                         VerticalAlignment="Bottom"
-                         HorizontalAlignment="Right"
-                         FontSize="40"
-                         FontFamily="Arial"
-                         Foreground="White"
-                         Padding="5,5,20,5"
-                         >
 
-                </TextBox>
-                
-            </Grid>
-        </Border>
+        <Grid Margin="2,2,2,410" 
+                x:Name="visorGrid" 
+                Background="#FF1D1D1D"
+                >
+
+            <TextBox x:Name="txtHistorico"
+                     Background="Transparent"
+                     BorderBrush="Transparent"
+                     Width="50"
+                     Height="50"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Right"
+                     Margin="5,12"
+                     FontSize="15"
+                     TextAlignment="Center"
+                     Foreground="LightGray"
+                     >
+                      
+            </TextBox>
+
+            <TextBox x:Name="txtVisor"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    FontSize="35"
+                    FontFamily="Arial"
+                    Foreground="White"
+                    Padding="5,5,20,5"
+                    Panel.ZIndex="1"
+                    TextAlignment="Center"
+                    >
+                    0
+            </TextBox>
+
+        </Grid>
+
         <Grid Margin="0,91,0,0" x:Name="buttonsGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -73,7 +92,7 @@
                         Foreground="White" 
                         BorderThickness="0"
                         Background="Transparent"
-                        FontFamily="Arial"
+                        FontFamily="Arial" Click="btnC_Click"
                         >
                 </Button>
             </Border>
@@ -84,7 +103,7 @@
                         Foreground="White" 
                         BorderThickness="0"
                         Background="Transparent"
-                        FontFamily="Arial"
+                        FontFamily="Arial" HorizontalAlignment="Center" Width="101" Click="btnDeletar_Click"
                         >
                     <Image Source="C:\Users\Família\source\repos\WpfCalculadora\imagens\excluir.png" 
                            Width="25" 
@@ -112,7 +131,7 @@
                         BorderThickness="0"
                         Background="Transparent"
                         FontFamily="Arial"
-                        Content="7"
+                        Content="7" Click="btnSete_Click"
                         >
 
                 </Button>
@@ -125,7 +144,7 @@
                         BorderThickness="0"
                         Background="Transparent"
                         FontFamily="Arial"
-                        Content="4"
+                        Content="4" Click="btnQuatro_Click"
                         >
 
                 </Button>
@@ -138,7 +157,7 @@
                         BorderThickness="0"
                         Background="Transparent"
                         FontFamily="Arial"
-                        Content="1"
+                        Content="1" Click="btnUm_Click"
                         >
 
                 </Button>
@@ -176,7 +195,7 @@
                      BorderThickness="0"
                      Background="Transparent"
                      FontFamily="Arial"
-                     Content="8"
+                     Content="8" Click="btnOito_Click"
                      >
 
                 </Button>
@@ -189,7 +208,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="5"
+                         Content="5" Click="btnCinco_Click"
                          >
 
                 </Button>
@@ -202,7 +221,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="2"
+                         Content="2" Click="btnDois_Click"
                          >
 
                 </Button>
@@ -215,7 +234,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="0"
+                         Content="0" Click="btnZero_Click"
                          >
 
                 </Button>
@@ -241,7 +260,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="9"
+                         Content="9" Click="btnNove_Click"
                          >  
 
                 </Button>
@@ -254,7 +273,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="6"
+                         Content="6" Click="btnSeis_Click"
                          >
 
                 </Button>
@@ -267,7 +286,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="3"
+                         Content="3" Click="btnTres_Click"
                          >
 
                 </Button>
@@ -295,7 +314,7 @@
                           BorderThickness="0"
                           Background="Transparent"
                           FontFamily="Arial"
-                          Content="/"
+                          Content="/" Click="btnDividir_Click"
                           >
 
                 </Button>
@@ -308,7 +327,7 @@
                        BorderThickness="0"
                        Background="Transparent"
                        FontFamily="Arial"
-                       Content="X"
+                       Content="x" Click="btnMultiplica_Click"
                        >
 
                 </Button>
@@ -321,7 +340,7 @@
                        BorderThickness="0"
                        Background="Transparent"
                        FontFamily="Arial"
-                       Content="−"
+                       Content="−" Click="btnMenos_Click"
                        >
 
                 </Button>
@@ -334,7 +353,7 @@
                        BorderThickness="0"
                        Background="Transparent"
                        FontFamily="Arial"
-                       Content="+"
+                       Content="+" Click="btnMais_Click"
                        >
 
                 </Button>
