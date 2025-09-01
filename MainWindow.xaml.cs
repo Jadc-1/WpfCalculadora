@@ -23,7 +23,9 @@ namespace WpfCalculadora
     {
 
         Calculadora Calculadora = new Calculadora(0, 0);
+        private bool _novoNumero = false;
         private string _operacao;
+        private int _contador;
 
         public MainWindow()
         {
@@ -32,13 +34,19 @@ namespace WpfCalculadora
 
        private void LimparVisor()
        {
-            //if (N2 == 0)
-            //{
-            //    MessageBox.Show("Divisão por zero não é permitida.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
-            //    return 0;
-            //}
             txtVisor.Text = "";
-       }
+        }
+
+        private bool UltimoDigitoEOperador()
+        {
+            char ultimo = txtVisor.Text[txtVisor.Text.Length - 1];
+
+            if(ultimo == '+' || ultimo == '-' || ultimo == 'x' || ultimo == '/')
+            {
+                return true;
+            }
+            return false;
+        }
 
         private void FinalizarNumeroUm()
         {
@@ -47,12 +55,39 @@ namespace WpfCalculadora
 
         private void FinalizarNumeroDois()
         {
-            Calculadora.N2 = Convert.ToDouble(txtVisor);
+            Calculadora.N2 = Convert.ToDouble(txtVisor.Text);
+            double resultado = Calculadora.Calcular(Calculadora.N1, Calculadora.N2, _operacao);
+            txtVisor.Text = resultado.ToString();
+            Calculadora.N1 = resultado;
+            txtHistorico.Text = "";
+            _novoNumero = true;
+        }
+
+        private void ENovoNumero()
+        {
+            if (_novoNumero)
+            {
+                LimparVisor();
+                _novoNumero = false;
+            }
+        }
+
+        private void IniciaComZeroOuOperador()
+        {
+            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
+            {
+                LimparVisor();
+            }
+            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
+            {
+                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
+            }
         }
 
         private void btnC_Click(object sender, RoutedEventArgs e)
         {
             LimparVisor();
+            _contador = 0;
             txtVisor.Text = "0";
             txtHistorico.Text = "";
         }
@@ -68,166 +103,162 @@ namespace WpfCalculadora
 
         private void btnSete_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero(); 
             txtVisor.Text += btnSete.Content.ToString(); // Adiciona o número 7 ao visor
         }
 
         private void btnOito_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnOito.Content.ToString(); // Adiciona o número 8 ao visor
         }
 
         private void btnNove_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnNove.Content.ToString(); // Adiciona o número 9 ao visor
         }
 
         private void btnQuatro_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnQuatro.Content.ToString();
         }
 
         private void btnCinco_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnCinco.Content.ToString();
         }
 
         private void btnSeis_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnSeis.Content.ToString();
         }
 
         private void btnUm_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnUm.Content.ToString();
         }
 
         private void btnDois_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnDois.Content.ToString();
         }
 
         private void btnTres_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnTres.Content.ToString();
         }
 
         private void btnZero_Click(object sender, RoutedEventArgs e)
         {
-            if (txtVisor.Text == "0") // Se o visor estiver vazio ou contiver um operador, limpa o visor e adicioanr no historico
-            {
-                LimparVisor();
-            }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
-            {
-                txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
-            }
+            IniciaComZeroOuOperador();
+            ENovoNumero();
             txtVisor.Text += btnZero.Content.ToString();
         }
 
         private void btnMais_Click(object sender, RoutedEventArgs e)
         {
-            int contador = 0;
-            contador++;
-            if (contador > 1)
+            if(UltimoDigitoEOperador()) return; // Impede que aconteça a duplicação de operações
+
+            if(!_novoNumero) //Quando limpo o visor, eu torno falso, como o calculo do N2 chama
             {
-                FinalizarNumeroDois();
+                _contador++;
+                if (_contador > 1) // Caso clique mais de uma vez, já calcula para iniciar outro cálculo
+                {
+                    FinalizarNumeroDois();
+                }
+                else
+                {
+                    FinalizarNumeroUm();
+                }
             }
-            FinalizarNumeroUm();
-            txtVisor.Text += " " + btnMais.Content.ToString() + " ";
+            txtVisor.Text += " " + btnMais.Content.ToString();
             _operacao = btnMais.Content.ToString();
+            _novoNumero = true;
         }
 
         private void btnMenos_Click(object sender, RoutedEventArgs e)
         {
-            FinalizarNumeroUm();
-            txtVisor.Text += " " + btnMenos.Content.ToString() + " ";
-            _operacao = btnMenos.Content.ToString();
+            if (UltimoDigitoEOperador()) return;
+
+            if (!_novoNumero) //Quando limpo o visor, eu torno falso, como o calculo do N2 chama
+            {
+                _contador++;
+                if (_contador > 1) // Caso clique mais de uma vez, já calcula para iniciar outro cálculo
+                {
+                    FinalizarNumeroDois();
+                }
+                else
+                {
+                    FinalizarNumeroUm();
+                }
+            }
+            txtVisor.Text += " " + btnMenos.Content.ToString();
+            _operacao = "-";
+            _novoNumero = true;
         }
 
         private void btnMultiplica_Click(object sender, RoutedEventArgs e)
         {
-            FinalizarNumeroUm();
-            txtVisor.Text += " " + btnMultiplica.Content.ToString() + " ";
-            _operacao = btnMultiplica.Content.ToString();
+            if (UltimoDigitoEOperador()) return;
+
+            if (!_novoNumero) //Quando limpo o visor, eu torno falso, como o calculo do N2 chama
+            {
+                _contador++;
+                if (_contador > 1) // Caso clique mais de uma vez, já calcula para iniciar outro cálculo
+                {
+                    FinalizarNumeroDois();
+                }
+                else
+                {
+                    FinalizarNumeroUm();
+                }
+            }
+            txtVisor.Text += " " + btnMultiplica.Content.ToString();
+            _operacao = btnMultiplica.Content.ToString(); 
+            _novoNumero = true;
         }
 
         private void btnDividir_Click(object sender, RoutedEventArgs e)
         {
-            FinalizarNumeroUm();
-            txtVisor.Text += " " + btnDividir.Content.ToString() + " ";
+            if (UltimoDigitoEOperador()) return;
+
+            if (!_novoNumero) //Quando limpo o visor, eu torno falso, como o calculo do N2 chama
+            {
+                _contador++;
+                if (_contador > 1) // Caso clique mais de uma vez, já calcula para iniciar outro cálculo
+                {
+                    FinalizarNumeroDois();
+                }
+                else
+                {
+                    FinalizarNumeroUm();
+                }
+            }
+            txtVisor.Text += " " + btnDividir.Content.ToString();
             _operacao = btnDividir.Content.ToString();
+            _novoNumero = true;
+        }
+
+        private void btnCalcular_Click(object sender, RoutedEventArgs e)
+        {
+            FinalizarNumeroDois();
+            _contador = 0;
         }
     }
 }

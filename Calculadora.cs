@@ -19,21 +19,40 @@ namespace WpfCalculadora
         }
 
 
-        public double Somar() { return N1 + N2; }
+        public double Calcular(double n1, double n2, string operacao)
+        {
+            switch(operacao)
+            {
+                case "+":
+                    return Somar();
+                case "-":
+                    return Subtrair();
+                case "x":
+                    return Multiplicar();
+                case "/":
+                    return Dividir();
+                default:
+                    MessageBox.Show("Operação inválida.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+            }
+            return 0;
+        }
 
-        public double Subtrair() { return N1 - N2; }
+        private double Somar() { return N1 + N2; }
 
-        public double Multiplicar() { return N1 * N2; }
+        private double Subtrair() { return N1 - N2; }
 
-        public double Dividir() { return N1 / N2; }
+        private double Multiplicar() { return N1 * N2; }
 
-        public double Modulo() { return N1 % N2; }
+        private double Dividir() { return N1 / N2; }
 
-        public double Fracao() { return 1 / N1; }
+        private double Modulo() { return N1 % N2; }
 
-        public double Potencia() { return Math.Pow(N1, 2); }
+        private double Fracao() { return 1 / N1; }
 
-        public double RaizQuadrada() { return Math.Sqrt(N1); }
+        private double Potencia() { return Math.Pow(N1, 2); }
+
+        private double RaizQuadrada() { return Math.Sqrt(N1); }
 
 
     }

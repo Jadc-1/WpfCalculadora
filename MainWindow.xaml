@@ -366,7 +366,7 @@
                        BorderThickness="0"
                        Background="Transparent"
                        FontFamily="Arial"
-                       Content="="
+                       Content="=" Click="btnCalcular_Click"
                        >
 
                 </Button>
