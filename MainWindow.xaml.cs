@@ -23,6 +23,7 @@ namespace WpfCalculadora
     {
 
         Calculadora Calculadora = new Calculadora(0, 0);
+        private bool _primeiroNumero = true;
         private bool _novoNumero = false;
         private string _operacao;
         private int _contador;
@@ -41,7 +42,7 @@ namespace WpfCalculadora
         {
             char ultimo = txtVisor.Text[txtVisor.Text.Length - 1];
 
-            if(ultimo == '+' || ultimo == '-' || ultimo == 'x' || ultimo == '/')
+            if(ultimo == '+' || ultimo == '-' || ultimo == 'x' || ultimo == '/' || ultimo == '%')
             {
                 return true;
             }
@@ -55,12 +56,13 @@ namespace WpfCalculadora
 
         private void FinalizarNumeroDois()
         {
+            _primeiroNumero = false; // Indica que o primeiro número já foi inserido, assim o botão CE limpa o N2 ao invés do N1.
             Calculadora.N2 = Convert.ToDouble(txtVisor.Text);
             double resultado = Calculadora.Calcular(Calculadora.N1, Calculadora.N2, _operacao);
             txtVisor.Text = resultado.ToString();
-            Calculadora.N1 = resultado;
+            Calculadora.N1 = resultado; // Adiciono o resultado ao N1 para que possa continuar calculando, pois o contador continua a contar, e o N2 será atualizado
             txtHistorico.Text = "";
-            _novoNumero = true;
+            _novoNumero = true; // Indica que o próximo número é novo, para limpar o visor depois de calcular
         }
 
         private void ENovoNumero()
@@ -171,11 +173,12 @@ namespace WpfCalculadora
             txtVisor.Text += btnZero.Content.ToString();
         }
 
+
         private void btnMais_Click(object sender, RoutedEventArgs e)
         {
             if(UltimoDigitoEOperador()) return; // Impede que aconteça a duplicação de operações
 
-            if(!_novoNumero) //Quando limpo o visor, eu torno falso, como o calculo do N2 chama
+            if(!_novoNumero) //Quando limpo o visor, eu torno falso um novo número, entrando na condição, caso seja o primeiro contador finaliza o N1, caso entre novamente já finaliza o N2
             {
                 _contador++;
                 if (_contador > 1) // Caso clique mais de uma vez, já calcula para iniciar outro cálculo
@@ -259,6 +262,43 @@ namespace WpfCalculadora
         {
             FinalizarNumeroDois();
             _contador = 0;
+        }
+
+        private void btnPorcent_Click(object sender, RoutedEventArgs e)
+        {
+            if (UltimoDigitoEOperador()) return;
+
+            if (!_novoNumero) //Quando limpo o visor, eu torno falso, como o calculo do N2 chama
+            {
+                _contador++;
+                if (_contador > 1) // Caso clique mais de uma vez, já calcula para iniciar outro cálculo
+                {
+                    FinalizarNumeroDois();
+                }
+                else
+                {
+                    FinalizarNumeroUm();
+                }
+            }
+            txtVisor.Text += " " + btnPorcent.Content.ToString();
+            _operacao = btnPorcent.Content.ToString();
+            _novoNumero = true; //Limpa o visor para quando a pessoa digitar um novo número (Todo número digitado tem o método ENovoNumero chamado, que limpa o visor)
+        }
+
+        private void btnCE_Click(object sender, RoutedEventArgs e)
+        {
+            if(_primeiroNumero) // Se ainda estiver no primeiro número, limpa o N1
+            {
+                LimparVisor();
+                txtVisor.Text = "0";
+                Calculadora.N1 = 0;
+            }
+            else // Se já estiver no segundo número, limpa o N2
+            {
+                LimparVisor();
+                txtVisor.Text = "0";
+                Calculadora.N2 = 0;
+            }
         }
     }
 }

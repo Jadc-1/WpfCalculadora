@@ -31,6 +31,8 @@ namespace WpfCalculadora
                     return Multiplicar();
                 case "/":
                     return Dividir();
+                case "%":
+                    return Modulo();
                 default:
                     MessageBox.Show("Operação inválida.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
@@ -44,9 +46,23 @@ namespace WpfCalculadora
 
         private double Multiplicar() { return N1 * N2; }
 
-        private double Dividir() { return N1 / N2; }
+        private double Dividir() { 
+            if (N2 == 0)
+            {
+                MessageBox.Show("Divisão por zero não é permitida.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 0;
+            }
+            return N1 / N2; 
+        }
 
-        private double Modulo() { return N1 % N2; }
+        private double Modulo() { 
+            if(N2 == 0)
+            {
+                MessageBox.Show("Módulo por zero não é permitido.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 0;
+            }
+            return N1 % N2; 
+        }
 
         private double Fracao() { return 1 / N1; }
 

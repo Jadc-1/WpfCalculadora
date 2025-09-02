@@ -9,6 +9,7 @@
         Background="Black"
         ResizeMode="CanMinimize"
         >
+
     <Grid>
 
         <Grid Margin="2,2,2,410" 
@@ -70,7 +71,7 @@
                         Foreground="White" 
                         BorderThickness="0"
                         Background="Transparent"
-                        FontFamily="Arial"
+                        FontFamily="Arial" Click="btnPorcent_Click" 
                         >
                 </Button>
             </Border>
@@ -81,7 +82,7 @@
                         Foreground="White" 
                         BorderThickness="0"
                         Background="Transparent"
-                        FontFamily="Arial"
+                        FontFamily="Arial" Click="btnCE_Click"
                         >
                 </Button>
             </Border>
@@ -314,7 +315,7 @@
                           BorderThickness="0"
                           Background="Transparent"
                           FontFamily="Arial"
-                          Content="/" Click="btnDividir_Click"
+                          Content="/" Click="btnDividir_Click" Height="68"
                           >
 
                 </Button>
@@ -335,12 +336,12 @@
 
             <Border CornerRadius="10" Background="#FF292626" Margin="0,2,3,2" Grid.Row="3" Grid.Column="3">
                 <Button x:Name="btnMenos"
-                       FontSize="30" 
+                       FontSize="45" 
                        Foreground="White" 
                        BorderThickness="0"
                        Background="Transparent"
                        FontFamily="Arial"
-                       Content="−" Click="btnMenos_Click"
+                       Content="-" Click="btnMenos_Click"
                        >
 
                 </Button>
