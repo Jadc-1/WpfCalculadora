@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -25,6 +26,7 @@ namespace WpfCalculadora
         Calculadora Calculadora = new Calculadora(0, 0);
         private bool _primeiroNumero = true;
         private bool _novoNumero = false;
+        private bool _decimal = false;
         private string _operacao;
         private int _contador;
 
@@ -52,11 +54,29 @@ namespace WpfCalculadora
 
         private void FinalizarNumeroUm()
         {
+            if(_decimal)
+            {
+                decimal numeroDecimal = decimal.Parse(txtVisor.Text, new CultureInfo("pt-BR")); // Aceita vírgula como separador decimal
+                _decimal = false;
+            }
+            
+            if(decimal.TryParse(txtVisor.Text, NumberStyles.Any, new CultureInfo("pt-BR"), out decimal numero)) // Verifica se o valor no visor é um número decimal
+            {
+                txtVisor.Text = numero.ToString(); // Atualiza o visor com o número formatado corretamente
+                Calculadora.N1 = Convert.ToDouble(txtVisor.Text);
+            }
             Calculadora.N1 = Convert.ToDouble(txtVisor.Text);
         }
 
         private void FinalizarNumeroDois()
         {
+
+            if (_decimal)
+            {
+                decimal numeroDecimal = decimal.Parse(txtVisor.Text, new CultureInfo("pt-BR")); // Aceita vírgula como separador decimal
+                _decimal = false;
+            }
+
             _primeiroNumero = false; // Indica que o primeiro número já foi inserido, assim o botão CE limpa o N2 ao invés do N1.
             Calculadora.N2 = Convert.ToDouble(txtVisor.Text);
              
@@ -96,7 +116,13 @@ namespace WpfCalculadora
             }
             else if (!int.TryParse(txtVisor.Text.ToString(), out _)) // Se o visor não for um número (ou seja, é um operador), limpa o visor e adiciona no histórico
             {
+
                 txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
+                if(txtHistorico.Text.StartsWith($"0 {_operacao}")) // Para caso seja valor decimal, não enviar um zero para o historico
+                {
+                    txtHistorico.Text = txtHistorico.Text.Remove(0, 2); // Remove o "0 " do início do histórico
+                }
+
                 if (txtHistorico.Text.Length > 4)
                 {
                     txtHistorico.FontSize = 10;
@@ -116,6 +142,7 @@ namespace WpfCalculadora
             _contador = 0;
             Calculadora.N1 = 0;
             Calculadora.N2 = 0;
+            _operacao = "";
             txtVisor.Text = "0";
             txtHistorico.Text = "";
         }
@@ -320,6 +347,7 @@ namespace WpfCalculadora
                 LimparVisor();
                 txtVisor.Text = "0";
                 Calculadora.N1 = 0;
+                _operacao = "";
             }
             else // Se já estiver no segundo número, limpa o N2
             {
@@ -379,6 +407,17 @@ namespace WpfCalculadora
                 N1 *= -1;
                 txtVisor.Text = N1.ToString();
             }
+        }
+
+        private void btnVirgula_Click(object sender, RoutedEventArgs e)
+        {
+            if(txtVisor.Text.Contains(",")) return; // Impede que a vírgula seja adicionada mais de uma vez
+            _decimal = true;
+            if(_decimal)
+            {
+                txtVisor.Text += ",";
+            }
+
         }
     }
 }

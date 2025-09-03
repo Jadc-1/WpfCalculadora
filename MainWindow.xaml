@@ -305,7 +305,7 @@
                           BorderThickness="0"
                           Background="Transparent"
                           FontFamily="Arial"
-                          Content=","
+                          Content="," Height="67" Click="btnVirgula_Click"
                           >
 
                 </Button>
