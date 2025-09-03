@@ -42,12 +42,13 @@ namespace WpfCalculadora
         {
             char ultimo = txtVisor.Text[txtVisor.Text.Length - 1];
 
-            if(ultimo == '+' || ultimo == '-' || ultimo == 'x' || ultimo == '/' || ultimo == '%')
+            if (ultimo == '+' || ultimo == '-' || ultimo == 'x' || ultimo == '/' || ultimo == '%' || ultimo == '½' || ultimo == '=')
             {
                 return true;
             }
             return false;
         }
+
 
         private void FinalizarNumeroUm()
         {
@@ -58,6 +59,16 @@ namespace WpfCalculadora
         {
             _primeiroNumero = false; // Indica que o primeiro número já foi inserido, assim o botão CE limpa o N2 ao invés do N1.
             Calculadora.N2 = Convert.ToDouble(txtVisor.Text);
+             
+            if (Calculadora.N2 == 0 && (_operacao == "/" || _operacao == "%")) // Evita que o N2 seja zero, para não dar erro na subtração, dois parenteses seguindo a idea das portas logicas E e OU (lembra da abertura paralela para seguir dois caminhos)
+            {
+                double tamanhoFonte = 25;
+                txtVisor.Text = "Não é possível dividir por zero";
+                txtVisor.FontSize = tamanhoFonte;
+                _novoNumero = true;
+                return;
+            }
+            
             double resultado = Calculadora.Calcular(Calculadora.N1, Calculadora.N2, _operacao);
             txtVisor.Text = resultado.ToString();
             Calculadora.N1 = resultado; // Adiciono o resultado ao N1 para que possa continuar calculando, pois o contador continua a contar, e o N2 será atualizado
@@ -67,6 +78,9 @@ namespace WpfCalculadora
 
         private void ENovoNumero()
         {
+            double tamanhoFonte = 35;
+            txtVisor.FontSize = tamanhoFonte; // Restaura o tamanho da fonte para o padrão (Por conta da verificação fração)
+            txtHistorico.FontSize = 15;
             if (_novoNumero)
             {
                 LimparVisor();
@@ -80,16 +94,28 @@ namespace WpfCalculadora
             {
                 LimparVisor();
             }
-            else if (!int.TryParse(txtVisor.Text.ToString(), out _))
+            else if (!int.TryParse(txtVisor.Text.ToString(), out _)) // Se o visor não for um número (ou seja, é um operador), limpa o visor e adiciona no histórico
             {
                 txtHistorico.Text = Calculadora.N1.ToString() + $" {_operacao}";
+                if (txtHistorico.Text.Length > 4)
+                {
+                    txtHistorico.FontSize = 10;
+                }
+                else if (txtHistorico.Text.Length > 8)
+                {
+                    txtHistorico.FontSize = 8;
+                }
             }
         }
+
 
         private void btnC_Click(object sender, RoutedEventArgs e)
         {
             LimparVisor();
+            txtHistorico.FontSize = 15;
             _contador = 0;
+            Calculadora.N1 = 0;
+            Calculadora.N2 = 0;
             txtVisor.Text = "0";
             txtHistorico.Text = "";
         }
@@ -97,10 +123,11 @@ namespace WpfCalculadora
         private void btnDeletar_Click(object sender, RoutedEventArgs e)
         {
             txtVisor.Text = txtVisor.Text.Remove(txtVisor.Text.Length - 1);
-            if(txtVisor.Text == "")
+            if (txtVisor.Text == "")
             {
                 txtVisor.Text = "0";
             }
+            _novoNumero = false; // Indica que o próximo número não é novo, para não limpar o visor depois de deletar
         }
 
         private void btnSete_Click(object sender, RoutedEventArgs e)
@@ -287,7 +314,8 @@ namespace WpfCalculadora
 
         private void btnCE_Click(object sender, RoutedEventArgs e)
         {
-            if(_primeiroNumero) // Se ainda estiver no primeiro número, limpa o N1
+            txtHistorico.FontSize = 15;
+            if (_primeiroNumero) // Se ainda estiver no primeiro número, limpa o N1
             {
                 LimparVisor();
                 txtVisor.Text = "0";
@@ -298,6 +326,58 @@ namespace WpfCalculadora
                 LimparVisor();
                 txtVisor.Text = "0";
                 Calculadora.N2 = 0;
+            }
+        }
+
+        private void btnFracao_Click(object sender, RoutedEventArgs e)
+        {
+            FinalizarNumeroUm();
+            if (Calculadora.N1 == 0)
+            {
+                double tamanhoFonte = 25;
+                txtVisor.Text = "Não é possível dividir por zero";
+                txtVisor.FontSize = tamanhoFonte;
+                _novoNumero = true;
+                return;
+            }
+            _novoNumero = true;
+            var fracaoResultado = Calculadora.Fracao();
+            txtHistorico.Text = $"1/({Calculadora.N1})";
+            txtVisor.Text = fracaoResultado.ToString();
+        }
+
+        private void btnPotencia_Click(object sender, RoutedEventArgs e)
+        {
+            FinalizarNumeroUm();
+            var potenciaResultado = Calculadora.Potencia();
+            _novoNumero = true;
+            txtHistorico.Text = $"sqr({Calculadora.N1})";
+            txtVisor.Text = potenciaResultado.ToString();
+        }
+
+        private void btnRaiz_Click(object sender, RoutedEventArgs e)
+        {
+            FinalizarNumeroUm();
+            var raizResultado = Calculadora.RaizQuadrada();
+            _novoNumero = true;
+            txtHistorico.Text = $"√({Calculadora.N1})";
+            txtVisor.Text = raizResultado.ToString();
+            Calculadora.N1 = raizResultado; // Permite continuar calculando a partir do resultado da raiz
+        }
+
+        private void btnMaisOuMenos_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtVisor.Text == "0" || txtVisor.Text == "") return; // Impede que o botão mais ou menos funcione se o visor estiver vazio ou com zero
+            double N1 = Convert.ToDouble(txtVisor.Text);
+            if (N1 > 0)
+            {
+                N1 *= -1;
+                txtVisor.Text = N1.ToString();
+            }
+            else if(N1 < 0)
+            {
+                N1 *= -1;
+                txtVisor.Text = N1.ToString();
             }
         }
     }

@@ -18,18 +18,21 @@
                 >
 
             <TextBox x:Name="txtHistorico"
-                     Background="Transparent"
-                     BorderBrush="Transparent"
-                     Width="50"
-                     Height="50"
-                     VerticalAlignment="Top"
-                     HorizontalAlignment="Right"
-                     Margin="5,12"
-                     FontSize="15"
-                     TextAlignment="Center"
-                     Foreground="LightGray"
-                     >
-                      
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Width="397"
+                        Height="50"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        VerticalContentAlignment="Top"
+                        TextWrapping="NoWrap"
+                        Margin="0,12,10,0"
+                        FontSize="15"
+                        TextAlignment="Right"
+                        Foreground="LightGray"
+                        IsReadOnly="True"
+                        >
+
             </TextBox>
 
             <TextBox x:Name="txtVisor"
@@ -43,8 +46,9 @@
                     Padding="5,5,20,5"
                     Panel.ZIndex="1"
                     TextAlignment="Center"
+                    IsReadOnly="True"
                     >
-                    0
+                0
             </TextBox>
 
         </Grid>
@@ -104,7 +108,7 @@
                         Foreground="White" 
                         BorderThickness="0"
                         Background="Transparent"
-                        FontFamily="Arial" HorizontalAlignment="Center" Width="101" Click="btnDeletar_Click"
+                        FontFamily="Arial" HorizontalAlignment="Right" Width="101" Click="btnDeletar_Click"
                         >
                     <Image Source="C:\Users\Família\source\repos\WpfCalculadora\imagens\excluir.png" 
                            Width="25" 
@@ -114,12 +118,12 @@
 
             <Border CornerRadius="10" Background="#FF292626" Margin="3,2,2,2" Grid.Row="1" Grid.Column="0">
                 <Button x:Name="btnFracao"
-                        FontSize="26" 
+                        FontSize="28" 
                         Foreground="White" 
                         BorderThickness="0"
                         Background="Transparent"
                         FontFamily="Arial"
-                        Content="x/2"
+                        Content="½" Click="btnFracao_Click"
                         >
 
                 </Button>
@@ -171,7 +175,7 @@
                         BorderThickness="0"
                         Background="Transparent"
                         FontFamily="Arial"
-                        Content="+/-"
+                        Content="+/-" HorizontalAlignment="Right" Width="99" Click="btnMaisOuMenos_Click"
                         >
 
                 </Button>
@@ -184,7 +188,7 @@
                         BorderThickness="0"
                         Background="Transparent"
                         FontFamily="Arial"
-                        Content="X²"
+                        Content="X²" Click="btnPotencia_Click"
                         >
 
                 </Button>
@@ -248,7 +252,7 @@
                          BorderThickness="0"
                          Background="Transparent"
                          FontFamily="Arial"
-                         Content="²√x"
+                         Content="²√x" Click="btnRaiz_Click"
                          >
 
                 </Button>
@@ -262,7 +266,7 @@
                          Background="Transparent"
                          FontFamily="Arial"
                          Content="9" Click="btnNove_Click"
-                         >  
+                         >
 
                 </Button>
             </Border>
