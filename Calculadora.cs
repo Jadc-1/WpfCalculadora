@@ -9,8 +9,20 @@ namespace WpfCalculadora
 {
     public class Calculadora
     {
-        public double N1 { get; set; }
-        public double N2 { get; set; }
+        private double _n1;
+        private double _n2;
+
+        public double N1
+        {
+            get { return _n1; }
+            set { _n1 = value; }
+        }
+
+        public double N2
+        {
+            get { return _n2; }
+            set { _n2 = value; }
+        }
 
         public Calculadora(double n1, double n2)
         {
